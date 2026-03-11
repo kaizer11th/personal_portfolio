@@ -3,575 +3,456 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>San's Portfolio</title>
+    <title>San — Writer & Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="#home">San's Portfolio</a>
-            </div>
-            <div class="nav-menu" id="nav-menu">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#content-writer" class="nav-link">Content Writer</a>
-                <a href="#web-developer" class="nav-link">Web Developer</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <div class="hamburger" id="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    Hi, I'm <span class="highlight">San</span>
-                </h1>
-                <h2 class="hero-subtitle">Content Writer & Web Developer</h2>
-                <p class="hero-description">
-                    I create compelling content and build amazing web experiences. From crafting engaging narratives 
-                    to developing responsive websites, I bring ideas to life through words and code.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#content-writer" class="btn btn-content">View Writing Portfolio</a>
-                    <a href="#web-developer" class="btn btn-dev">View Dev Projects</a>
-                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="image-container">
-                    <img src="your-photo.jpg" alt="Your Name" class="profile-img">
-                    <div class="image-overlay"></div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursor-follower"></div>
 
-    <!-- Content Writer Section -->
-    <section id="content-writer" class="content-writer-section">
-        <div class="section-header content-header">
-            <div class="container">
-                <h2 class="section-main-title">Content Writer</h2>
-                <p class="section-subtitle">Crafting compelling narratives and engaging content</p>
+<!-- Loader -->
+<div class="loader" id="loader">
+    <div class="loader-inner">
+        <span class="loader-text" id="loader-text">SAN</span>
+        <div class="loader-bar"><div class="loader-progress" id="loader-progress"></div></div>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#home" class="nav-logo">SAN<span class="logo-dot">.</span></a>
+        <div class="nav-menu" id="nav-menu">
+            <a href="#home" class="nav-link" data-text="Home">Home</a>
+            <a href="#content-writer" class="nav-link" data-text="Writer">Writer</a>
+            <a href="#web-developer" class="nav-link" data-text="Dev">Developer</a>
+            <a href="#contact" class="nav-link" data-text="Contact">Contact</a>
+        </div>
+        <div class="nav-right">
+            <a href="#contact" class="nav-cta">Hire Me</a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="hero-bg">
+        <div class="noise-overlay"></div>
+        <div class="grid-lines"></div>
+    </div>
+    <div class="hero-container">
+        <div class="hero-label">
+            <span class="label-dot"></span>
+            Available for work · Bolpur, India
+        </div>
+        <h1 class="hero-title">
+            <span class="line-wrap"><span class="line" data-delay="0">I Write.</span></span>
+            <span class="line-wrap"><span class="line" data-delay="100">I Build.</span></span>
+            <span class="line-wrap"><span class="line accent-line" data-delay="200">I Deliver.</span></span>
+        </h1>
+        <div class="hero-bottom">
+            <p class="hero-desc">Content Writer & Web Developer. I craft stories that convert and build experiences that last.</p>
+            <div class="hero-actions">
+                <a href="#content-writer" class="btn-pill btn-writer">
+                    <span>Writing</span>
+                    <i class="fas fa-pen-nib"></i>
+                </a>
+                <a href="#web-developer" class="btn-pill btn-coder">
+                    <span>Dev Work</span>
+                    <i class="fas fa-code"></i>
+                </a>
             </div>
         </div>
+        <div class="hero-stats">
+            <div class="stat"><span class="stat-n" data-target="50">0</span><sup>+</sup><p>Articles</p></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><span class="stat-n" data-target="25">0</span><sup>+</sup><p>Clients</p></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><span class="stat-n" data-target="5">0</span><sup>+</sup><p>Dev Projects</p></div>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+    </div>
+</section>
 
-        <!-- Content Writer About -->
-        <div class="content-about">
-            <div class="container">
-                <h3 class="section-title">About My Writing</h3>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p class="about-intro">
-                            With 3+ years of experience in content writing, I specialize in creating 
-                            compelling narratives that drive engagement and conversions.
-                        </p>
-                        <div class="about-details">
-                            <div class="detail-item content-item">
-                                <i class="fas fa-graduation-cap"></i>
-                                <div>
-                                    <h4>Education</h4>
-                                    <p>B.A.(Hons) in Italian</p>
-                                </div>
-                            </div>
-                            <div class="detail-item content-item">
-                                <i class="fas fa-briefcase"></i>
-                                <div>
-                                    <h4>Experience</h4>
-                                    <p>3+ Years in Content Writing</p>
-                                </div>
-                            </div>
-                            <div class="detail-item content-item">
-                                <i class="fas fa-award"></i>
-                                <div>
-                                    <h4>Specialization</h4>
-                                    <p>Esports News, Creative & Ghost Writing</p>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="your-cv.pdf" class="btn btn-content-outline" download>
-                            <i class="fas fa-download"></i> Download CV
-                        </a>
+<!-- Content Writer Section -->
+<section id="content-writer" class="section writer-section">
+    <div class="section-tag">
+        <span class="tag-number">01</span>
+        <span class="tag-slash">/</span>
+        <span class="tag-label">Content Writer</span>
+    </div>
+
+    <!-- Big Section Title -->
+    <div class="big-title-wrap">
+        <h2 class="big-section-title writer-title" data-text="WRITER">WRITER</h2>
+    </div>
+
+    <!-- About -->
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-left">
+                <h3 class="about-heading">Turning ideas into<br><em>compelling narratives</em></h3>
+                <p class="about-body">With 3+ years crafting content for esports, tech, and lifestyle brands — I don't just write, I tell stories that make people stay, read, and act.</p>
+                <div class="about-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <div><strong>B.A.(Hons) Italian</strong><span>Language & Culture</span></div>
                     </div>
-                    <div class="about-stats">
-                        <div class="stat-item content-stat">
-                            <h3>50+</h3>
-                            <p>Articles Written</p>
-                        </div>
-                        <div class="stat-item content-stat">
-                            <h3>25+</h3>
-                            <p>Happy Clients</p>
-                        </div>
-                        <div class="stat-item content-stat">
-                            <h3>50+</h3>
-                            <p>Projects Completed</p>
-                        </div>
+                    <div class="meta-item">
+                        <span class="meta-icon"><i class="fas fa-fire"></i></span>
+                        <div><strong>Esports Specialist</strong><span>News & Match Analysis</span></div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon"><i class="fas fa-ghost"></i></span>
+                        <div><strong>Ghost Writing</strong><span>Your voice, my words</span></div>
                     </div>
                 </div>
+                <a href="assets/samples/resume" class="btn-outline writer-outline" download>
+                    <i class="fas fa-download"></i> Download CV
+                </a>
             </div>
-        </div>
-
-        <!-- Content Writer Skills -->
-        <div class="content-skills">
-            <div class="container">
-                <h3 class="section-title">Writing Skills & Tools</h3>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h4>Writing Skills</h4>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <span>Esports News Writing</span>
-                                <div class="skill-bar content-skill-bar">
-                                    <div class="skill-progress content-progress" data-width="95%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span>Creative Writing</span>
-                                <div class="skill-bar content-skill-bar">
-                                    <div class="skill-progress content-progress" data-width="90%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span>SEO Content</span>
-                                <div class="skill-bar content-skill-bar">
-                                    <div class="skill-progress content-progress" data-width="85%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span>Ghost Writing</span>
-                                <div class="skill-bar content-skill-bar">
-                                    <div class="skill-progress content-progress" data-width="80%"></div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="about-right">
+                <div class="skills-visual">
+                    <div class="skill-arc" data-skill="Esports Writing" data-pct="95">
+                        <svg viewBox="0 0 120 120"><circle class="bg-ring" cx="60" cy="60" r="50"/><circle class="fg-ring writer-ring" cx="60" cy="60" r="50" style="--pct:95"/></svg>
+                        <div class="arc-label"><strong>95%</strong><span>Esports</span></div>
                     </div>
-                    <div class="skill-category">
-                        <h4>Tools & Software</h4>
-                        <div class="tools-grid">
-                            <div class="tool-item content-tool">
-                                <i class="fab fa-wordpress"></i>
-                                <span>WordPress</span>
-                            </div>
-                            <div class="tool-item content-tool">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Google Analytics</span>
-                            </div>
-                            <div class="tool-item content-tool">
-                                <i class="fab fa-google"></i>
-                                <span>Google Docs</span>
-                            </div>
-                            <div class="tool-item content-tool">
-                                <i class="fas fa-search"></i>
-                                <span>SEMrush</span>
-                            </div>
-                            <div class="tool-item content-tool">
-                                <i class="fab fa-trello"></i>
-                                <span>Trello</span>
-                            </div>
-                            <div class="tool-item content-tool">
-                                <i class="fas fa-edit"></i>
-                                <span>Grammarly</span>
-                            </div>
-                        </div>
+                    <div class="skill-arc" data-skill="Creative Writing" data-pct="90">
+                        <svg viewBox="0 0 120 120"><circle class="bg-ring" cx="60" cy="60" r="50"/><circle class="fg-ring writer-ring" cx="60" cy="60" r="50" style="--pct:90"/></svg>
+                        <div class="arc-label"><strong>90%</strong><span>Creative</span></div>
                     </div>
+                    <div class="skill-arc" data-skill="SEO Content" data-pct="85">
+                        <svg viewBox="0 0 120 120"><circle class="bg-ring" cx="60" cy="60" r="50"/><circle class="fg-ring writer-ring" cx="60" cy="60" r="50" style="--pct:85"/></svg>
+                        <div class="arc-label"><strong>85%</strong><span>SEO</span></div>
+                    </div>
+                    <div class="skill-arc" data-skill="Ghost Writing" data-pct="80">
+                        <svg viewBox="0 0 120 120"><circle class="bg-ring" cx="60" cy="60" r="50"/><circle class="fg-ring writer-ring" cx="60" cy="60" r="50" style="--pct:80"/></svg>
+                        <div class="arc-label"><strong>80%</strong><span>Ghost</span></div>
+                    </div>
+                </div>
+                <div class="tools-strip">
+                    <span class="tool-badge"><i class="fab fa-wordpress"></i> WordPress</span>
+                    <span class="tool-badge"><i class="fas fa-chart-line"></i> Analytics</span>
+                    <span class="tool-badge"><i class="fas fa-search"></i> SEMrush</span>
+                    <span class="tool-badge"><i class="fab fa-trello"></i> Trello</span>
+                    <span class="tool-badge"><i class="fas fa-spell-check"></i> Grammarly</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Content Writer Portfolio -->
-        <div class="content-portfolio">
-            <div class="container">
-                <h3 class="section-title">Writing Samples</h3>
-                <p class="portfolio-subtitle">Explore my diverse range of writing projects and samples</p>
-                
-                <div class="portfolio-carousel-container">
-                    <button class="carousel-btn prev-btn content-carousel-btn" id="contentPrevBtn">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    
-                    <div class="portfolio-carousel">
-                        <div class="portfolio-track" id="contentPortfolioTrack">
-                            <div class="portfolio-card content-card">
-                                <div class="portfolio-image">
-                                    <img src="content-portfolio-1.jpg" alt="Esports Tournament Coverage">
-                                    <div class="portfolio-overlay content-overlay">
-                                        <div class="portfolio-content">
-                                            <h4>Esports Tournament Coverage</h4>
-                                            <p>Comprehensive coverage of major esports tournaments including match analysis</p>
-                                            <div class="portfolio-links">
-                                                <a href="content-sample-1.pdf" class="btn btn-small btn-content" download>
-                                                    <i class="fas fa-download"></i> Download
-                                                </a>
-                                                <a href="https://docs.google.com/document/d/1E-aLbLX7nWEoRVAsMjPKSZI_wMLiASeeV8iO-8HVIdg/edit?usp=sharing" class="btn btn-small btn-content" target="_blank">
-                                                    <i class="fas fa-external-link-alt"></i> View Live
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="portfolio-card content-card">
-                                <div class="portfolio-image">
-                                    <img src="content-portfolio-2.jpg" alt="Editing Skills">
-                                    <div class="portfolio-overlay content-overlay">
-                                        <div class="portfolio-content">
-                                            <h4>Editing Skills</h4>
-                                            <p>Comprehensive coverage of my editing skills on practicallity</p>
-                                            <div class="portfolio-links">
-                                                <a href="content-sample-2.pdf" class="btn btn-small btn-content" download>
-                                                    <i class="fas fa-download"></i> Download
-                                                </a>
-                                                <a href="https://docs.google.com/document/d/1UtdguRrzOSdcEP004kC8331DjHvUKXrCSaTPPBKoAwc/edit?usp=sharing" class="btn btn-small btn-content" target="_blank">
-                                                    <i class="fas fa-external-link-alt"></i> View Live
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="portfolio-card content-card">
-                                <div class="portfolio-image">
-                                    <img src="content-portfolio-3.jpg" alt="Ghost Written Article">
-                                    <div class="portfolio-overlay content-overlay">
-                                        <div class="portfolio-content">
-                                            <h4>Ghost Written Article</h4>
-                                            <p>Professional article for industry leader on market trends and insights</p>
-                                            <div class="portfolio-links">
-                                                <a href="content-sample-3.pdf" class="btn btn-small btn-content" download>
-                                                    <i class="fas fa-download"></i> Download
-                                                </a>
-                                                <a href="https://docs.google.com/document/d/1ntlhHLgrgivLl_neRf-ZfztEiMt7jlgH81iPAZVL-AQ/edit?usp=sharing" class="btn btn-small btn-content" target="_blank">
-                                                    <i class="fas fa-external-link-alt"></i> View Live
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button class="carousel-btn next-btn content-carousel-btn" id="contentNextBtn">
-                        <i class="fas fa-chevron-right"></i>
+    <!-- Writing Samples - FILE-BASED (no external links) -->
+    <div class="container">
+        <div class="section-subheader">
+            <h3 class="subsection-title">Writing Samples</h3>
+            <p class="subsection-note">Files stored directly in this repo — no external links needed</p>
+        </div>
+        <div class="samples-grid">
+            <!-- Sample 1 -->
+            <div class="sample-card reveal-card">
+                <div class="sample-number">01</div>
+                <div class="sample-type">ESPORTS</div>
+                <h4 class="sample-title">Tournament Coverage</h4>
+                <p class="sample-desc">Comprehensive coverage of major esports tournaments including live match analysis, player performance breakdowns, and post-match reports.</p>
+                <div class="sample-tags">
+                    <span>Match Analysis</span>
+                    <span>News Writing</span>
+                    <span>Esports</span>
+                </div>
+                <div class="sample-actions">
+                    <!-- Replace href with your actual file path once added to repo -->
+                    <a href="assets/samples/content-sample-1" class="sample-btn primary-sample" download>
+                        <i class="fas fa-file-arrow-down"></i> Download PDF
+                    </a>
+                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/esports-coverage.pdf">
+                        <i class="fas fa-eye"></i> Preview
                     </button>
                 </div>
-                
-                <div class="carousel-indicators" id="contentCarouselIndicators">
-                    <!-- Dots will be generated by JavaScript -->
+            </div>
+            <!-- Sample 2 -->
+            <div class="sample-card reveal-card">
+                <div class="sample-number">02</div>
+                <div class="sample-type">EDITING</div>
+                <h4 class="sample-title">Editing Skills</h4>
+                <p class="sample-desc">Showcasing proofreading, structural editing, and tone refinement across different content types — from blogs to long-form articles.</p>
+                <div class="sample-tags">
+                    <span>Proofreading</span>
+                    <span>Copy Editing</span>
+                    <span>Style</span>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Web Developer Section -->
-    <section id="web-developer" class="web-developer-section">
-        <div class="section-header dev-header">
-            <div class="container">
-                <h2 class="section-main-title">Web Developer</h2>
-                <p class="section-subtitle">Building modern, responsive, and user-friendly web applications</p>
-            </div>
-        </div>
-
-        <!-- Web Developer About -->
-        <div class="dev-about">
-            <div class="container">
-                <h3 class="section-title">About My Development Work</h3>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p class="about-intro">
-                            With 5+ years of experience in web development, I create modern, responsive websites 
-                            and web applications using cutting-edge technologies and best practices.
-                        </p>
-                        <div class="about-details">
-                            <div class="detail-item dev-item">
-                                <i class="fas fa-code"></i>
-                                <div>
-                                    <h4>Frontend Development</h4>
-                                    <p>React, Vue.js, HTML5, CSS3, JavaScript</p>
-                                </div>
-                            </div>
-                            <div class="detail-item dev-item">
-                                <i class="fas fa-server"></i>
-                                <div>
-                                    <h4>Backend Development</h4>
-                                    <p>Node.js, Python, PHP, Express.js</p>
-                                </div>
-                            </div>
-                            <div class="detail-item dev-item">
-                                <i class="fas fa-database"></i>
-                                <div>
-                                    <h4>Databases</h4>
-                                    <p>MongoDB, MySQL, PostgreSQL, Firebase</p>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="your-dev-resume.pdf" class="btn btn-dev-outline" download>
-                            <i class="fas fa-download"></i> Download Resume
-                        </a>
-                    </div>
-                    <div class="about-stats">
-                        <div class="stat-item dev-stat">
-                            <h3>5+</h3>
-                            <p>Projects Built</p>
-                        </div>
-                        <div class="stat-item dev-stat">
-                            <h3>1+</h3>
-                            <p>Clients Served</p>
-                        </div>
-                        <div class="stat-item dev-stat">
-                            <h3>5+</h3>
-                            <p>Years Experience</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Web Developer Skills -->
-        <div class="dev-skills">
-            <div class="container">
-                <h3 class="section-title">Technical Skills & Technologies</h3>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h4>Frontend Technologies</h4>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <span>HTML5 & CSS3</span>
-                                <div class="skill-bar dev-skill-bar">
-                                    <div class="skill-progress dev-progress" data-width="95%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span>JavaScript (ES6+)</span>
-                                <div class="skill-bar dev-skill-bar">
-                                    <div class="skill-progress dev-progress" data-width="90%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span>React.js</span>
-                                <div class="skill-bar dev-skill-bar">
-                                    <div class="skill-progress dev-progress" data-width="85%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <span>Vue.js</span>
-                                <div class="skill-bar dev-skill-bar">
-                                    <div class="skill-progress dev-progress" data-width="80%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h4>Backend & Tools</h4>
-                        <div class="tools-grid">
-                            <div class="tool-item dev-tool">
-                                <i class="fab fa-node-js"></i>
-                                <span>Node.js</span>
-                            </div>
-                            <div class="tool-item dev-tool">
-                                <i class="fab fa-python"></i>
-                                <span>Python</span>
-                            </div>
-                            <div class="tool-item dev-tool">
-                                <i class="fas fa-database"></i>
-                                <span>MongoDB</span>
-                            </div>
-                            <div class="tool-item dev-tool">
-                                <i class="fab fa-git-alt"></i>
-                                <span>Git & GitHub</span>
-                            </div>
-                            <div class="tool-item dev-tool">
-                                <i class="fab fa-docker"></i>
-                                <span>Docker</span>
-                            </div>
-                            <div class="tool-item dev-tool">
-                                <i class="fas fa-cloud"></i>
-                                <span>AWS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Web Developer Projects -->
-        <div class="dev-portfolio">
-            <div class="container">
-                <h3 class="section-title">Development Projects</h3>
-                <p class="portfolio-subtitle">Explore my latest web development projects and applications</p>
-                
-                <div class="portfolio-carousel-container">
-                    <button class="carousel-btn prev-btn dev-carousel-btn" id="devPrevBtn">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    
-                    <div class="portfolio-carousel">
-                        <div class="portfolio-track" id="devPortfolioTrack">
-                            <div class="portfolio-card dev-card">
-                                <div class="portfolio-image">
-                                    <img src="dev-project-1.jpg" alt="College Website">
-                                    <div class="portfolio-overlay dev-overlay">
-                                        <div class="portfolio-content">
-                                            <h4>College Website</h4>
-                                            <p>Made with HTML, TailWind CSS, JS with Github & Vercel</p>
-                                            <div class="tech-stack">
-                                                <span class="tech-tag">React</span>
-                                                <span class="tech-tag">Node.js</span>
-                                                <span class="tech-tag">MongoDB</span>
-                                            </div>
-                                            <div class="portfolio-links">
-                                                <a href="https://github.com/kaizer11th/italian_website" class="btn btn-small btn-dev" target="_blank">
-                                                    <i class="fab fa-github"></i> GitHub
-                                                </a>
-                                                <a href="https://cmellcsitalian.vercel.app/" class="btn btn-small btn-dev" target="_blank">
-                                                    <i class="fas fa-external-link-alt"></i> Live Demo
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="portfolio-card dev-card">
-                                <div class="portfolio-image">
-                                    <img src="dev-project-2.jpg" alt="Parody Portfolio">
-                                    <div class="portfolio-overlay dev-overlay">
-                                        <div class="portfolio-content">
-                                            <h4>Own Canny Website</h4>
-                                            <p>Self made parody website using HTML, JS, CSS</p>
-                                            <div class="tech-stack">
-                                                <span class="tech-tag">Vue.js</span>
-                                                <span class="tech-tag">Firebase</span>
-                                                <span class="tech-tag">CSS3</span>
-                                            </div>
-                                            <div class="portfolio-links">
-                                                <a href="https://github.com/kaizer11th/website" class="btn btn-small btn-dev" target="_blank">
-                                                    <i class="fab fa-github"></i> GitHub
-                                                </a>
-                                                <a href="https://san-green.vercel.app/" class="btn btn-small btn-dev" target="_blank">
-                                                    <i class="fas fa-external-link-alt"></i> Live Demo
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="portfolio-card dev-card">
-                                <div class="portfolio-image">
-                                    <img src="dev-project-3.jpg" alt="Restaurant Website">
-                                    <div class="portfolio-overlay dev-overlay">
-                                        <div class="portfolio-content">
-                                            <h4>Music Playback Sub-Website</h4>
-                                            <p>Responsive music playing website with online player</p>
-                                            <div class="tech-stack">
-                                                <span class="tech-tag">HTML5</span>
-                                                <span class="tech-tag">CSS3</span>
-                                                <span class="tech-tag">JavaScript</span>
-                                            </div>
-                                            <div class="portfolio-links">
-                                                <a href="https://github.com/yourusername/project3" class="btn btn-small btn-dev" target="_blank">
-                                                    <i class="fab fa-github"></i> GitHub
-                                                </a>
-                                                <a href="#" class="btn btn-small btn-dev" target="_blank">
-                                                    <i class="fas fa-external-link-alt"></i> Live Demo
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button class="carousel-btn next-btn dev-carousel-btn" id="devNextBtn">
-                        <i class="fas fa-chevron-right"></i>
+                <div class="sample-actions">
+                    <a href="assets/samples/content-sample-2" class="sample-btn primary-sample" download>
+                        <i class="fas fa-file-arrow-down"></i> Download PDF
+                    </a>
+                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/editing-skills.pdf">
+                        <i class="fas fa-eye"></i> Preview
                     </button>
                 </div>
-                
-                <div class="carousel-indicators" id="devCarouselIndicators">
-                    <!-- Dots will be generated by JavaScript -->
+            </div>
+            <!-- Sample 3 -->
+            <div class="sample-card reveal-card">
+                <div class="sample-number">03</div>
+                <div class="sample-type">GHOST WRITING</div>
+                <h4 class="sample-title">Ghost Written Article</h4>
+                <p class="sample-desc">A professional article written for an industry leader on market trends and strategic insights — entirely in their voice and brand tone.</p>
+                <div class="sample-tags">
+                    <span>Ghost Writing</span>
+                    <span>Thought Leadership</span>
+                    <span>Market Trends</span>
+                </div>
+                <div class="sample-actions">
+                    <a href="assets/samples/content-sample-3" class="sample-btn primary-sample" download>
+                        <i class="fas fa-file-arrow-down"></i> Download PDF
+                    </a>
+                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/ghost-article.pdf">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Let's Work Together</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Get In Touch</h3>
-                    <p>Ready to bring your ideas to life? Whether you need compelling content or a stunning website, let's discuss your next project!</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>kaizer2021g@gmail.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+91 6295431895</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Bolpur,India</span>
-                        </div>
+<!-- PDF Preview Modal -->
+<div class="pdf-modal" id="pdfModal">
+    <div class="pdf-modal-overlay" id="pdfOverlay"></div>
+    <div class="pdf-modal-inner">
+        <div class="pdf-modal-header">
+            <span id="pdfModalTitle">Document Preview</span>
+            <button class="pdf-close" id="pdfClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="pdf-embed-wrap">
+            <iframe id="pdfFrame" src="" title="PDF Preview"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Web Developer Section -->
+<section id="web-developer" class="section dev-section">
+    <div class="section-tag">
+        <span class="tag-number">02</span>
+        <span class="tag-slash">/</span>
+        <span class="tag-label">Web Developer</span>
+    </div>
+
+    <div class="big-title-wrap">
+        <h2 class="big-section-title dev-title" data-text="BUILDER">BUILDER</h2>
+    </div>
+
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-left">
+                <h3 class="about-heading">Code that's clean,<br><em>fast &amp; intentional</em></h3>
+                <p class="about-body">5+ years building websites and web apps. I care about performance, accessibility, and design that doesn't just look good — it works.</p>
+                <div class="about-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon dev-icon"><i class="fas fa-layer-group"></i></span>
+                        <div><strong>Frontend</strong><span>React, Vue, HTML5, CSS3, JS</span></div>
                     </div>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/sanxc3q/" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/kaizer11th" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://x.com/kaizer_11th" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <div class="meta-item">
+                        <span class="meta-icon dev-icon"><i class="fas fa-server"></i></span>
+                        <div><strong>Backend</strong><span>Node.js, Python, Express, FastAPI</span></div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon dev-icon"><i class="fas fa-database"></i></span>
+                        <div><strong>Databases</strong><span>MongoDB, MySQL, Firebase</span></div>
                     </div>
                 </div>
-                <form class="contact-form" action="https://formspree.io/f/movlwqgb" method="POST">
-                    <div class="form-group">
-                        <input type="text" name="name" placeholder="Your Name" required>
+                <a href="assets/samples/resume" class="btn-outline dev-outline" download>
+                    <i class="fas fa-download"></i> Download Resume
+                </a>
+            </div>
+            <div class="about-right">
+                <div class="tech-orbit">
+                    <div class="orbit-center">
+                        <i class="fas fa-code"></i>
                     </div>
-                    <div class="form-group">
-                        <input type="email" name="email" placeholder="Your Email" required>
+                    <div class="orbit orbit-1">
+                        <div class="orbit-item" style="--angle:0deg"><i class="fab fa-react"></i></div>
+                        <div class="orbit-item" style="--angle:72deg"><i class="fab fa-node-js"></i></div>
+                        <div class="orbit-item" style="--angle:144deg"><i class="fab fa-python"></i></div>
+                        <div class="orbit-item" style="--angle:216deg"><i class="fab fa-vuejs"></i></div>
+                        <div class="orbit-item" style="--angle:288deg"><i class="fab fa-docker"></i></div>
                     </div>
-                    <div class="form-group">
-                        <select name="service" required>
-                            <option value="">Select Service</option>
+                    <div class="orbit orbit-2">
+                        <div class="orbit-item sm" style="--angle:36deg"><i class="fab fa-git-alt"></i></div>
+                        <div class="orbit-item sm" style="--angle:108deg"><i class="fas fa-database"></i></div>
+                        <div class="orbit-item sm" style="--angle:180deg"><i class="fas fa-cloud"></i></div>
+                        <div class="orbit-item sm" style="--angle:252deg"><i class="fab fa-js"></i></div>
+                        <div class="orbit-item sm" style="--angle:324deg"><i class="fab fa-css3-alt"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="container">
+        <div class="section-subheader">
+            <h3 class="subsection-title">Projects</h3>
+        </div>
+        <div class="projects-list">
+            <!-- Project 1 -->
+            <div class="project-row reveal-card">
+                <div class="project-num">01</div>
+                <div class="project-info">
+                    <h4 class="project-name">My Department's Website</h4>
+                    <p class="project-desc">Italian Language College website built with HTML, Tailwind CSS, and JS. Deployed via GitHub &amp; Vercel.</p>
+                </div>
+                <div class="project-stack">
+                    <span>HTML</span><span>Tailwind</span><span>JavaScript</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/kaizer11th/italian_website" target="_blank" class="proj-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://cmellcsitalian.blog/" target="_blank" class="proj-link proj-live">
+                        <i class="fas fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- Project 2 -->
+            <div class="project-row reveal-card">
+                <div class="project-num">02</div>
+                <div class="project-info">
+                    <h4 class="project-name">Neuralgrid</h4>
+                    <p class="project-desc">Live GPU Sharing Network Simulator</p>
+                </div>
+                <div class="project-stack">
+                    <span>HTML</span><span>CSS3</span><span>JavaScript</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/kaizer11th/neuralgrid" target="_blank" class="proj-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://neuralgrid-h4gg.onrender.com/" target="_blank" class="proj-link proj-live">
+                        <i class="fas fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- Project 3 -->
+            <div class="project-row reveal-card">
+                <div class="project-num">03</div>
+                <div class="project-info">
+                    <h4 class="project-name">Basic Foundation Site</h4>
+                    <p class="project-desc">Helped me learn the basics of Web Devolopment. Still up and running and upto date</p>
+                </div>
+                <div class="project-stack">
+                    <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/kaizer11th/website" target="_blank" class="proj-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://san-green.vercel.app/" target="_blank" class="proj-link proj-live">
+                        <i class="fas fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section contact-section">
+    <div class="section-tag">
+        <span class="tag-number">03</span>
+        <span class="tag-slash">/</span>
+        <span class="tag-label">Contact</span>
+    </div>
+    <div class="big-title-wrap">
+        <h2 class="big-section-title contact-title" data-text="TALK">TALK</h2>
+    </div>
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-left">
+                <h3 class="contact-heading">Got a project?<br>Let's make it <em>real.</em></h3>
+                <p class="contact-body">Whether you need content that converts or a site that stands out — I'm your person. Reach out and let's talk.</p>
+                <div class="contact-details">
+                    <a href="mailto:kaizer2021g@gmail.com" class="contact-detail-item">
+                        <span class="cdi-icon"><i class="fas fa-envelope"></i></span>
+                        <span>kaizer2021g@gmail.com</span>
+                    </a>
+                    <div class="contact-detail-item">
+                        <span class="cdi-icon"><i class="fas fa-phone"></i></span>
+                        <span>+91 6295431895</span>
+                    </div>
+                    <div class="contact-detail-item">
+                        <span class="cdi-icon"><i class="fas fa-location-dot"></i></span>
+                        <span>Bolpur, West Bengal, India</span>
+                    </div>
+                </div>
+                <div class="social-row">
+                    <a href="https://www.linkedin.com/in/sanxc3q/" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/kaizer11th" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://x.com/kaizer_11th" target="_blank" class="social-icon" aria-label="Twitter/X"><i class="fab fa-x-twitter"></i></a>
+                </div>
+            </div>
+            <div class="contact-right">
+                <form class="contact-form" action="https://formspree.io/f/movlwqgb" method="POST" id="contactForm">
+                    <div class="form-row">
+                        <div class="field-wrap">
+                            <input type="text" name="name" id="fname" placeholder=" " required autocomplete="off">
+                            <label for="fname">Your Name</label>
+                        </div>
+                        <div class="field-wrap">
+                            <input type="email" name="email" id="femail" placeholder=" " required autocomplete="off">
+                            <label for="femail">Email Address</label>
+                        </div>
+                    </div>
+                    <div class="field-wrap">
+                        <select name="service" id="fservice" required>
+                            <option value="" disabled selected></option>
                             <option value="content-writing">Content Writing</option>
                             <option value="web-development">Web Development</option>
                             <option value="both">Both Services</option>
                         </select>
+                        <label for="fservice">Service Needed</label>
                     </div>
-                    <div class="form-group">
-                        <input type="text" name="subject" placeholder="Project Subject" required>
+                    <div class="field-wrap">
+                        <input type="text" name="subject" id="fsubject" placeholder=" " required autocomplete="off">
+                        <label for="fsubject">Project Subject</label>
                     </div>
-                    <div class="form-group">
-                        <textarea name="message" placeholder="Tell me about your project..." rows="5" required></textarea>
+                    <div class="field-wrap">
+                        <textarea name="message" id="fmessage" placeholder=" " rows="4" required></textarea>
+                        <label for="fmessage">Tell me about your project</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <button type="submit" class="submit-btn">
+                        <span class="submit-text">Send Message</span>
+                        <span class="submit-icon"><i class="fas fa-paper-plane"></i></span>
+                    </button>
+                    <div class="form-success" id="formSuccess">
+                        <i class="fas fa-circle-check"></i> Message sent! I'll be in touch soon.
+                    </div>
                 </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 San. All rights reserved.</p>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-inner">
+        <span class="footer-logo">SAN<span class="logo-dot">.</span></span>
+        <p class="footer-copy">© 2026 San. Built with intent, deployed with care.</p>
+        <div class="footer-links">
+            <a href="https://github.com/kaizer11th" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/sanxc3q/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
