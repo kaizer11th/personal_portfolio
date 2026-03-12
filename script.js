@@ -223,37 +223,105 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal-card').forEach(el => revealObserver.observe(el));
 
 /* ========================================
-   PDF PREVIEW MODAL
+   PDF PREVIEW MODAL — PDF.js canvas renderer
+   Works on Vercel/GitHub Pages (no iframe CORS issues)
 ======================================== */
 const pdfModal = document.getElementById('pdfModal');
-const pdfFrame = document.getElementById('pdfFrame');
+const pdfCanvas = document.getElementById('pdfCanvas');
 const pdfClose = document.getElementById('pdfClose');
 const pdfOverlay = document.getElementById('pdfOverlay');
 const pdfModalTitle = document.getElementById('pdfModalTitle');
+const pdfLoading = document.getElementById('pdfLoading');
+const pdfCurrentPage = document.getElementById('pdfCurrentPage');
+const pdfTotalPages = document.getElementById('pdfTotalPages');
+const pdfPrev = document.getElementById('pdfPrev');
+const pdfNext = document.getElementById('pdfNext');
 
-document.querySelectorAll('.preview-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const pdfSrc = btn.getAttribute('data-pdf');
-        const card = btn.closest('.sample-card');
-        const title = card.querySelector('.sample-title')?.textContent || 'Document';
+let pdfDoc = null;
+let currentPage = 1;
+let renderTask = null;
 
-        pdfFrame.src = pdfSrc;
-        pdfModalTitle.textContent = title;
-        pdfModal.classList.add('open');
-        document.body.style.overflow = 'hidden';
+async function renderPage(num) {
+    const page = await pdfDoc.getPage(num);
+    const wrap = document.getElementById('pdfCanvasWrap');
+    const scale = Math.min((wrap.clientWidth - 48) / page.getViewport({ scale: 1 }).width, 1.8);
+    const viewport = page.getViewport({ scale });
+
+    pdfCanvas.width = viewport.width;
+    pdfCanvas.height = viewport.height;
+
+    if (renderTask) { renderTask.cancel(); }
+    renderTask = page.render({
+        canvasContext: pdfCanvas.getContext('2d'),
+        viewport
     });
-});
+
+    try {
+        await renderTask.promise;
+    } catch (e) {
+        if (e.name !== 'RenderingCancelledException') throw e;
+    }
+
+    pdfCurrentPage.textContent = num;
+    pdfPrev.disabled = num <= 1;
+    pdfNext.disabled = num >= pdfDoc.numPages;
+}
+
+async function openPdf(src, title) {
+    pdfModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    pdfModalTitle.textContent = title;
+    pdfLoading.classList.remove('hidden');
+    pdfCanvas.style.display = 'none';
+    currentPage = 1;
+
+    try {
+        pdfDoc = await pdfjsLib.getDocument(src).promise;
+        pdfTotalPages.textContent = pdfDoc.numPages;
+        pdfCanvas.style.display = 'block';
+        pdfLoading.classList.add('hidden');
+        await renderPage(1);
+    } catch (err) {
+        pdfLoading.innerHTML = `
+            <i class="fas fa-triangle-exclamation" style="font-size:28px;color:var(--accent);margin-bottom:4px"></i>
+            <span>Could not load PDF.<br>Make sure the file exists at the correct path in your repo.</span>`;
+        console.error('PDF.js error:', err);
+    }
+}
 
 function closePdfModal() {
     pdfModal.classList.remove('open');
-    pdfFrame.src = '';
     document.body.style.overflow = '';
+    if (renderTask) renderTask.cancel();
+    pdfDoc = null;
+    const ctx = pdfCanvas.getContext('2d');
+    ctx.clearRect(0, 0, pdfCanvas.width, pdfCanvas.height);
+    pdfCanvas.style.display = 'none';
+    pdfLoading.classList.remove('hidden');
+    pdfLoading.innerHTML = '<div class="pdf-spinner"></div><span>Loading PDF…</span>';
 }
 
+document.querySelectorAll('.preview-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const src = btn.getAttribute('data-pdf');
+        const title = btn.closest('.sample-card').querySelector('.sample-title')?.textContent || 'Preview';
+        openPdf(src, title);
+    });
+});
+
+pdfPrev?.addEventListener('click', async () => {
+    if (currentPage > 1) { currentPage--; await renderPage(currentPage); }
+});
+pdfNext?.addEventListener('click', async () => {
+    if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; await renderPage(currentPage); }
+});
 pdfClose?.addEventListener('click', closePdfModal);
 pdfOverlay?.addEventListener('click', closePdfModal);
 document.addEventListener('keydown', (e) => {
+    if (!pdfModal?.classList.contains('open')) return;
     if (e.key === 'Escape') closePdfModal();
+    if (e.key === 'ArrowRight' && pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
+    if (e.key === 'ArrowLeft' && currentPage > 1) { currentPage--; renderPage(currentPage); }
 });
 
 /* ========================================

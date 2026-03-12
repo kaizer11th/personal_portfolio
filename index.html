@@ -172,10 +172,10 @@
                 </div>
                 <div class="sample-actions">
                     <!-- Replace href with your actual file path once added to repo -->
-                    <a href="assets/samples/content-sample-1" class="sample-btn primary-sample" download>
+                    <a href="assets/samples/content-sample-1.pdf" class="sample-btn primary-sample" download>
                         <i class="fas fa-file-arrow-down"></i> Download PDF
                     </a>
-                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/content-sample-1">
+                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/content-sample-1.pdf">
                         <i class="fas fa-eye"></i> Preview
                     </button>
                 </div>
@@ -192,10 +192,10 @@
                     <span>Style</span>
                 </div>
                 <div class="sample-actions">
-                    <a href="assets/samples/content-sample-2" class="sample-btn primary-sample" download>
+                    <a href="assets/samples/content-sample-2.pdf" class="sample-btn primary-sample" download>
                         <i class="fas fa-file-arrow-down"></i> Download PDF
                     </a>
-                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/content-sample-2">
+                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/content-sample-2.pdf">
                         <i class="fas fa-eye"></i> Preview
                     </button>
                 </div>
@@ -212,10 +212,10 @@
                     <span>Market Trends</span>
                 </div>
                 <div class="sample-actions">
-                    <a href="assets/samples/content-sample-3" class="sample-btn primary-sample" download>
+                    <a href="assets/samples/content-sample-3.pdf" class="sample-btn primary-sample" download>
                         <i class="fas fa-file-arrow-down"></i> Download PDF
                     </a>
-                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/content-sample-3">
+                    <button class="sample-btn secondary-sample preview-btn" data-pdf="assets/samples/content-sample-3.pdf">
                         <i class="fas fa-eye"></i> Preview
                     </button>
                 </div>
@@ -224,16 +224,25 @@
     </div>
 </section>
 
-<!-- PDF Preview Modal -->
+<!-- PDF Preview Modal (PDF.js — works on Vercel/GitHub Pages) -->
 <div class="pdf-modal" id="pdfModal">
     <div class="pdf-modal-overlay" id="pdfOverlay"></div>
     <div class="pdf-modal-inner">
         <div class="pdf-modal-header">
             <span id="pdfModalTitle">Document Preview</span>
+            <div class="pdf-nav">
+                <button class="pdf-page-btn" id="pdfPrev"><i class="fas fa-chevron-left"></i></button>
+                <span class="pdf-page-info"><span id="pdfCurrentPage">1</span> / <span id="pdfTotalPages">1</span></span>
+                <button class="pdf-page-btn" id="pdfNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
             <button class="pdf-close" id="pdfClose"><i class="fas fa-times"></i></button>
         </div>
-        <div class="pdf-embed-wrap">
-            <iframe id="pdfFrame" src="" title="PDF Preview"></iframe>
+        <div class="pdf-canvas-wrap" id="pdfCanvasWrap">
+            <div class="pdf-loading" id="pdfLoading">
+                <div class="pdf-spinner"></div>
+                <span>Loading PDF…</span>
+            </div>
+            <canvas id="pdfCanvas"></canvas>
         </div>
     </div>
 </div>
@@ -380,9 +389,9 @@
                 <h3 class="contact-heading">Got a project?<br>Let's make it <em>real.</em></h3>
                 <p class="contact-body">Whether you need content that converts or a site that stands out — I'm your person. Reach out and let's talk.</p>
                 <div class="contact-details">
-                    <a href="mailto:kaizer2021g@gmail.com" class="contact-detail-item">
+                    <a href="/cdn-cgi/l/email-protection#553e343c2f30276765676432153238343c397b363a38" class="contact-detail-item">
                         <span class="cdi-icon"><i class="fas fa-envelope"></i></span>
-                        <span>kaizer2021g@gmail.com</span>
+                        <span><span class="__cf_email__" data-cfemail="c6ada7afbca3b4f4f6f4f7a186a1aba7afaae8a5a9ab">[email&#160;protected]</span></span>
                     </a>
                     <div class="contact-detail-item">
                         <span class="cdi-icon"><i class="fas fa-phone"></i></span>
@@ -453,6 +462,8 @@
     </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 <script src="script.js"></script>
 </body>
 </html>
