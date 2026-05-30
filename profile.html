@@ -243,6 +243,27 @@
         background: rgba(232,0,26,.08);
     }
 
+
+    .profile-nav-logout {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        z-index: 9999;
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 14px;
+        background: rgba(232,0,26,.10);
+        border: 1px solid rgba(232,0,26,.35);
+        color: #ff6b7a;
+        font-family: var(--font-m);
+        font-size: 10px;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        border-radius: 3px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+    }
+    .profile-nav-logout:hover { background: rgba(232,0,26,.18); border-color: var(--acc); color: var(--tx); }
+
     /* ─── MAIN PROFILE CONTENT (hidden until authed) ─── */
     #profile-content {
         display: none;
@@ -417,6 +438,7 @@
 
 <!-- ─── FULL PROFILE CONTENT ─── -->
 <div id="profile-content">
+    <button class="profile-nav-logout" id="logoutBtnTop"><i class="fas fa-right-from-bracket"></i> Logout</button>
     <div class="profile-topbar">
         <button class="logout-btn" id="logoutBtn">
             <i class="fas fa-right-from-bracket"></i> Logout
@@ -737,9 +759,11 @@ function showProfile() {
     pc.style.display = 'block';
 
     const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtnTop = document.getElementById('logoutBtnTop');
     if (logoutBtn && !logoutBtn.dataset.bound) {
         logoutBtn.dataset.bound = 'true';
         logoutBtn.addEventListener('click', handleLogout);
+        logoutBtnTop?.addEventListener('click', handleLogout);
     }
 
     setTimeout(() => {

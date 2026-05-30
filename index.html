@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>San - Developer & Writer</title>
+    <title>San — Developer</title>
+    <meta name="description" content="San — Full-Stack Developer from India. React, FastAPI, Node.js and more.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Cursor -->
+<!-- Custom Cursor -->
 <div class="cur" id="cur"></div>
 <div class="cur-ring" id="curRing"></div>
 
 <!-- Loader -->
 <div class="loader" id="loader">
     <div class="loader-content">
-        <div class="loader-name">SAN</div>
+        <div class="loader-glitch" data-text="SAN">SAN</div>
         <div class="loader-line"><div class="loader-fill" id="loaderFill"></div></div>
-        <div class="loader-label" id="loaderLabel">Loading</div>
+        <div class="loader-label" id="loaderLabel">Initialising</div>
     </div>
 </div>
 
@@ -87,15 +88,15 @@
         <a href="#hero" class="nav-logo">SAN<em>.</em></a>
         <div class="nav-links" id="navLinks">
             <a href="#hero" class="nl">Home</a>
-            <a href="#developer" class="nl">Developer</a>
-            <a href="#writer" class="nl">Writer</a>
+            <a href="#developer" class="nl">Work</a>
+            <a href="#experience" class="nl">Experience</a>
             <a href="#contact" class="nl">Contact</a>
         </div>
         <div class="nav-end">
             <button class="nav-admin-btn" id="navAdminBtn">
                 <i class="fas fa-lock" id="adminIcon"></i>
             </button>
-            <a href="#contact" class="nav-hire">Hire Me</a>
+            <a href="profile.html" class="nav-profile-btn">Full Profile <i class="fas fa-arrow-up-right-from-square"></i></a>
             <button class="nav-burger" id="navBurger"><span></span><span></span></button>
         </div>
     </div>
@@ -106,36 +107,43 @@
     <canvas class="hero-canvas" id="heroCanvas"></canvas>
     <div class="hero-glow g1"></div>
     <div class="hero-glow g2"></div>
-    <div class="hero-grain"></div>
+    <div class="hero-scanlines"></div>
 
     <div class="hero-body">
         <div class="hero-eyebrow">
             <span class="eyebrow-dot"></span>
-            Available for work &middot; India
+            <span class="eyebrow-text">Available for work</span>
+            <span class="eyebrow-sep">|</span>
+            <span>India</span>
         </div>
+
         <h1 class="hero-h1">
-            <span class="hh-row"><span class="hh-w" data-d="0">Developer</span></span>
-            <span class="hh-amp">&amp;</span>
-            <span class="hh-row"><em class="hh-w" data-d="150">Writer</em></span>
+            <span class="hh-row"><span class="hh-w" data-d="0">Full-Stack</span></span>
+            <span class="hh-row"><em class="hh-w" data-d="120">Developer</em></span>
         </h1>
-        <p class="hero-p">Two disciplines. One focus, <em>quality.</em><br>I build for the web and write for people.</p>
+
+        <p class="hero-p">Building performant, accessible, and <em>beautifully crafted</em> web experiences. From idea to deployment.</p>
+
         <div class="hero-btns">
-            <a href="#developer" class="hb-main">Explore Work <i class="fas fa-arrow-right"></i></a>
-            <a href="assets/samples/resume.pdf" class="hb-ghost" download>Resume <i class="fas fa-download"></i></a>
+            <a href="#developer" class="hb-main">View My Work <i class="fas fa-arrow-right"></i></a>
+            <a href="profile.html" class="hb-profile">
+                <i class="fas fa-user-circle"></i> View Full Profile
+                <span class="hb-profile-badge">LOCKED</span>
+            </a>
         </div>
     </div>
 
     <div class="hero-stats">
         <div class="hs-item"><span class="hs-n" data-t="4">0</span><sup>+</sup><span class="hs-l">Projects</span></div>
         <div class="hs-sep"></div>
-        <div class="hs-item"><span class="hs-n" data-t="570">0</span><sup>+</sup><span class="hs-l">Articles</span></div>
+        <div class="hs-item"><span class="hs-n" data-t="3">0</span><sup>+</sup><span class="hs-l">Years Exp.</span></div>
+        <div class="hs-sep"></div>
+        <div class="hs-item"><span class="hs-n" data-t="12">0</span><sup>+</sup><span class="hs-l">Technologies</span></div>
         <div class="hs-sep"></div>
         <div class="hs-item"><span class="hs-n" data-t="25">0</span><sup>+</sup><span class="hs-l">Clients</span></div>
-        <div class="hs-sep"></div>
-        <div class="hs-item"><span class="hs-n" data-t="3">0</span><sup>+</sup><span class="hs-l">Years</span></div>
     </div>
 
-    <div class="hero-scroll"><div class="scroll-mouse"><div class="scroll-dot"></div></div></div>
+    <div class="hero-scroll"><div class="scroll-mouse"><div class="scroll-dot"></div></div><span>scroll</span></div>
 </section>
 
 <!-- ════════════════ DEVELOPER ════════════════ -->
@@ -143,10 +151,10 @@
     <div class="sec-tag"><span>01</span><span>/</span><span>Developer</span></div>
 
     <div class="container">
-        <div class="sec-intro-grid">
+        <div class="sec-intro-grid reveal">
             <div class="sig-left">
                 <h2 class="sec-h2">Building for the<br><em>modern web</em></h2>
-                <p class="sec-p">3+ years crafting performant, accessible, beautifully-designed web experiences. From idea to deployment.</p>
+                <p class="sec-p">3+ years crafting performant, accessible, beautifully designed web experiences — from idea to deployment. Every project ships clean.</p>
                 <div class="chip-cloud">
                     <span>React</span><span>FastAPI</span><span>Node.js</span><span>Python</span>
                     <span>MongoDB</span><span>Express</span><span>Docker</span><span>AWS</span>
@@ -178,7 +186,7 @@
         </div>
 
         <!-- Projects -->
-        <div class="projects-wrap">
+        <div class="projects-wrap reveal">
             <div class="pw-header">
                 <h3 class="pw-title">Projects</h3>
                 <span class="pw-count" id="projectCount">Loading…</span>
@@ -190,142 +198,136 @@
     </div>
 </section>
 
-<!-- ════════════════ WRITER ════════════════ -->
-<section id="writer" class="s-writer">
-    <div class="sec-tag writer-tag"><span>02</span><span>/</span><span>Writer</span></div>
+<!-- ════════════════ EXPERIENCE ════════════════ -->
+<section id="experience" class="s-exp">
+    <div class="sec-tag exp-tag"><span>02</span><span>/</span><span>Experience</span></div>
 
     <div class="container">
-        <div class="sec-intro-grid">
-            <div class="sig-left">
-                <h2 class="sec-h2">Words that<br><em>actually work</em></h2>
-                <p class="sec-p">3+ years writing for esports, tech, and lifestyle. Compelling narratives that make readers stay and convert.</p>
-                <div class="writer-facts">
-                    <div class="wf-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <div><strong>B.A.(Hons) Italian</strong><span>Language & Culture</span></div>
-                    </div>
-                    <div class="wf-item">
-                        <i class="fas fa-gamepad"></i>
-                        <div><strong>Esports Specialist</strong><span>News & Analysis</span></div>
-                    </div>
-                    <div class="wf-item">
-                        <i class="fas fa-ghost"></i>
-                        <div><strong>Ghost Writing</strong><span>Your voice, my words</span></div>
-                    </div>
-                    <div class="wf-item">
-                        <i class="fas fa-magnifying-glass"></i>
-                        <div><strong>SEO Content</strong><span>Rank & convert</span></div>
+        <div class="exp-header reveal">
+            <h2 class="sec-h2">My Journey<br><em>so far</em></h2>
+            <p class="sec-p">Roles, projects and milestones that have shaped how I build on the web.</p>
+        </div>
+
+        <div class="timeline">
+
+            <!-- Item 1 -->
+            <div class="tl-item reveal" data-index="0">
+                <div class="tl-left">
+                    <div class="tl-date">
+                        <span>2024</span><span>Present</span>
                     </div>
                 </div>
-                <a href="assets/samples/resume.pdf" class="outline-btn writer-outline" download>
-                    <i class="fas fa-download"></i> Download CV
-                </a>
+                <div class="tl-dot-wrap">
+                    <div class="tl-line"></div>
+                    <div class="tl-dot"><i class="fas fa-code"></i></div>
+                </div>
+                <div class="tl-card">
+                    <div class="tl-badge">Freelance</div>
+                    <h3 class="tl-role">Full-Stack Developer</h3>
+                    <span class="tl-company">Self-Employed · Remote</span>
+                    <p class="tl-desc">Designed and shipped web apps for clients across India — building REST APIs with FastAPI, interactive React frontends, and deploying on AWS &amp; Vercel. Specialised in performant, mobile-first experiences.</p>
+                    <div class="tl-chips">
+                        <span>React</span><span>FastAPI</span><span>AWS</span><span>MongoDB</span>
+                    </div>
+                </div>
             </div>
-            <div class="sig-right">
-                <div class="skill-bars">
-                    <div class="sb-item" data-pct="95">
-                        <div class="sb-top"><span>Esports Writing</span><span>95%</span></div>
-                        <div class="sb-track"><div class="sb-fill"></div></div>
-                    </div>
-                    <div class="sb-item" data-pct="90">
-                        <div class="sb-top"><span>Creative Writing</span><span>90%</span></div>
-                        <div class="sb-track"><div class="sb-fill"></div></div>
-                    </div>
-                    <div class="sb-item" data-pct="85">
-                        <div class="sb-top"><span>SEO Content</span><span>85%</span></div>
-                        <div class="sb-track"><div class="sb-fill"></div></div>
-                    </div>
-                    <div class="sb-item" data-pct="80">
-                        <div class="sb-top"><span>Ghost Writing</span><span>80%</span></div>
-                        <div class="sb-track"><div class="sb-fill"></div></div>
+
+            <!-- Item 2 -->
+            <div class="tl-item reveal" data-index="1">
+                <div class="tl-left">
+                    <div class="tl-date">
+                        <span>2023</span><span>2024</span>
                     </div>
                 </div>
-                <div class="tool-cloud">
-                    <span><i class="fab fa-wordpress"></i> WordPress</span>
-                    <span><i class="fas fa-chart-line"></i> Analytics</span>
-                    <span><i class="fas fa-search"></i> SEMrush</span>
-                    <span><i class="fab fa-trello"></i> Trello</span>
-                    <span><i class="fas fa-spell-check"></i> Grammarly</span>
+                <div class="tl-dot-wrap">
+                    <div class="tl-line"></div>
+                    <div class="tl-dot"><i class="fas fa-graduation-cap"></i></div>
+                </div>
+                <div class="tl-card">
+                    <div class="tl-badge">Academic Project</div>
+                    <h3 class="tl-role">Italian Language Department Website</h3>
+                    <span class="tl-company">CMELLCS · Kolkata, India</span>
+                    <p class="tl-desc">Built and deployed the official website for the Italian Language &amp; Culture department using HTML, Tailwind CSS, and JavaScript. Hosted on GitHub Pages, the site serves hundreds of students and faculty.</p>
+                    <div class="tl-chips">
+                        <span>HTML5</span><span>Tailwind</span><span>JavaScript</span><span>GitHub Pages</span>
+                    </div>
+                    <a href="https://cmellcsitalian.blog/" target="_blank" class="tl-link">Visit Site <i class="fas fa-arrow-up-right-from-square"></i></a>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="tl-item reveal" data-index="2">
+                <div class="tl-left">
+                    <div class="tl-date">
+                        <span>2023</span><span>Present</span>
+                    </div>
+                </div>
+                <div class="tl-dot-wrap">
+                    <div class="tl-line"></div>
+                    <div class="tl-dot"><i class="fas fa-network-wired"></i></div>
+                </div>
+                <div class="tl-card">
+                    <div class="tl-badge">Open Source</div>
+                    <h3 class="tl-role">Neuralgrid — GPU Sharing Simulator</h3>
+                    <span class="tl-company">Personal Project</span>
+                    <p class="tl-desc">A live GPU Sharing Network Simulator with real-time visualisation using pure HTML, CSS3 &amp; JavaScript. Rendered network topology and real-time metrics via Canvas API.</p>
+                    <div class="tl-chips">
+                        <span>HTML</span><span>CSS3</span><span>JavaScript</span><span>Canvas API</span>
+                    </div>
+                    <a href="https://neuralgrid-h4gg.onrender.com/" target="_blank" class="tl-link">Live Demo <i class="fas fa-arrow-up-right-from-square"></i></a>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="tl-item reveal" data-index="3">
+                <div class="tl-left">
+                    <div class="tl-date">
+                        <span>2022</span><span>2023</span>
+                    </div>
+                </div>
+                <div class="tl-dot-wrap">
+                    <div class="tl-line tl-line-end"></div>
+                    <div class="tl-dot tl-dot-start"><i class="fas fa-seedling"></i></div>
+                </div>
+                <div class="tl-card">
+                    <div class="tl-badge">Foundation</div>
+                    <h3 class="tl-role">Started Web Development</h3>
+                    <span class="tl-company">Self-taught · India</span>
+                    <p class="tl-desc">Began the journey with HTML, CSS, and JavaScript — building projects from scratch to understand the fundamentals. Deployed first personal portfolio site via GitHub Pages.</p>
+                    <div class="tl-chips">
+                        <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Samples -->
-        <div class="samples-wrap">
-            <div class="pw-header">
-                <h3 class="pw-title">Writing Samples</h3>
-                <span class="pw-count">Hosted in repo — no external links</span>
-            </div>
-            <div class="samples-grid">
-                <div class="sample-card">
-                    <div class="sc-num">01</div>
-                    <div class="sc-type">ESPORTS</div>
-                    <h4>Tournament Coverage</h4>
-                    <p>In-depth coverage of major esports events — match analysis, player breakdowns, post-match reports.</p>
-                    <div class="sc-chips"><span>Match Analysis</span><span>News</span><span>Esports</span></div>
-                    <div class="sc-btns">
-                        <a href="assets/samples/content-sample-1.pdf" class="sc-dl" download><i class="fas fa-download"></i> Download</a>
-                        <button class="sc-preview preview-btn" data-pdf="assets/samples/content-sample-1.pdf" data-title="Tournament Coverage"><i class="fas fa-eye"></i> Preview</button>
-                    </div>
+        <!-- Full Profile CTA -->
+        <div class="exp-cta reveal">
+            <div class="exp-cta-inner">
+                <div class="exp-cta-lock">
+                    <i class="fas fa-lock"></i>
                 </div>
-                <div class="sample-card">
-                    <div class="sc-num">02</div>
-                    <div class="sc-type">EDITING</div>
-                    <h4>Editing Skills</h4>
-                    <p>Proofreading, structural editing, and tone refinement across blogs and long-form articles.</p>
-                    <div class="sc-chips"><span>Proofreading</span><span>Copy Editing</span><span>Style</span></div>
-                    <div class="sc-btns">
-                        <a href="assets/samples/content-sample-2.pdf" class="sc-dl" download><i class="fas fa-download"></i> Download</a>
-                        <button class="sc-preview preview-btn" data-pdf="assets/samples/content-sample-2.pdf" data-title="Editing Skills"><i class="fas fa-eye"></i> Preview</button>
-                    </div>
+                <div class="exp-cta-text">
+                    <h3>There's more to the story.</h3>
+                    <p>My full interactive profile — CV, contact info, a 3D walkthrough of my journey, and a whole lot more — is one sign-up away.</p>
                 </div>
-                <div class="sample-card">
-                    <div class="sc-num">03</div>
-                    <div class="sc-type">GHOST WRITING</div>
-                    <h4>Ghost Written Article</h4>
-                    <p>Professional article for an industry leader on market trends — entirely in their voice.</p>
-                    <div class="sc-chips"><span>Ghost Writing</span><span>Thought Leadership</span></div>
-                    <div class="sc-btns">
-                        <a href="assets/samples/content-sample-3.pdf" class="sc-dl" download><i class="fas fa-download"></i> Download</a>
-                        <button class="sc-preview preview-btn" data-pdf="assets/samples/content-sample-3.pdf" data-title="Ghost Written Article"><i class="fas fa-eye"></i> Preview</button>
-                    </div>
-                </div>
+                <a href="profile.html" class="exp-cta-btn">
+                    <span>View Full Profile</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- PDF Modal -->
-<div class="pdf-modal" id="pdfModal">
-    <div class="pdf-overlay" id="pdfOverlay"></div>
-    <div class="pdf-box">
-        <div class="pdf-topbar">
-            <span id="pdfTitle">Preview</span>
-            <div class="pdf-controls">
-                <button class="pdf-nb" id="pdfPrev" disabled><i class="fas fa-chevron-left"></i></button>
-                <span><span id="pdfCur">1</span> / <span id="pdfTotal">1</span></span>
-                <button class="pdf-nb" id="pdfNext" disabled><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <button class="pdf-x" id="pdfClose"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="pdf-area" id="pdfArea">
-            <div class="pdf-loading-state" id="pdfLoader">
-                <div class="pdf-spinner"></div>
-                <span>Loading PDF…</span>
-            </div>
-            <canvas id="pdfCanvas"></canvas>
-        </div>
-    </div>
-</div>
-
 <!-- ════════════════ CONTACT ════════════════ -->
 <section id="contact" class="s-contact">
     <div class="sec-tag contact-tag"><span>03</span><span>/</span><span>Contact</span></div>
     <div class="container">
-        <div class="contact-grid">
+        <div class="contact-grid reveal">
             <div class="cg-left">
-                <h2 class="sec-h2">Let's build<br><em>something real.</em></h2>
-                <p class="sec-p">Content strategy, web development, or both, I'm here. Let's talk about your project.</p>
+                <h2 class="sec-h2">Let's build<br><em>something.</em></h2>
+                <p class="sec-p">Got a project? A collaboration? Or just want to say hi — I'm here. Let's talk.</p>
                 <div class="c-links">
                     <a href="mailto:kaizer2021g@gmail.com" class="c-link">
                         <i class="fas fa-envelope"></i><span>kaizer2021g@gmail.com</span>
@@ -359,8 +361,8 @@
                         <select name="service" id="cfService" required>
                             <option value="" disabled selected></option>
                             <option value="web-development">Web Development</option>
-                            <option value="content-writing">Content Writing</option>
-                            <option value="both">Both</option>
+                            <option value="collaboration">Collaboration</option>
+                            <option value="other">Other</option>
                         </select>
                         <label for="cfService">Service</label>
                     </div>
@@ -393,8 +395,6 @@
     </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 <script src="script.js"></script>
 </body>
 </html>
