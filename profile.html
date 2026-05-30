@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San — Full Profile</title>
+    <meta name="description" content="San's full interactive developer profile — sign in to unlock.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  CLERK SETUP                                             ║
+    ║  1. Replace PASTE_YOUR_KEY_HERE below with your key      ║
+    ║     (get it from: https://dashboard.clerk.com → API Keys)║
+    ║  2. Replace YOUR_FRONTEND_API with the subdomain from    ║
+    ║     your Clerk dashboard Frontend API URL, e.g.:         ║
+    ║     happy-fox-12.clerk.accounts.dev                      ║
+    ║  3. Run via local server (NOT file://):                   ║
+    ║     npx serve .  →  http://localhost:3000/profile.html   ║
+    ╚══════════════════════════════════════════════════════════╝
+    -->
+    <!-- Clerk JS SDK — loaded per official CDN quickstart pattern -->
+    <script
+        async
+        crossorigin="anonymous"
+        data-clerk-publishable-key="pk_test_bGVhcm5pbmctc2hlcGhlcmQtNDguY2xlcmsuYWNjb3VudHMuZGV2JA"
+        src="https://learning-shepherd-48.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+        type="text/javascript"
+    ></script>
+    <script>
+        // Official Clerk pattern: listen on window 'load', then call Clerk.load()
+        window.addEventListener('load', () => initClerk());
+    </script>
+
+    <style>
+    /* =========================================
+       PROFILE PAGE — BLACK/RED THEME
+    ========================================= */
+    :root {
+        --bg:       #060608;
+        --bg1:      #0a0a0e;
+        --sur:      #14141a;
+        --sur2:     #1a1a22;
+        --bdr:      rgba(255,255,255,0.06);
+        --bdr2:     rgba(255,255,255,0.12);
+        --tx:       #f0ece8;
+        --tx2:      rgba(240,236,232,0.5);
+        --tx3:      rgba(240,236,232,0.2);
+        --acc:      #e8001a;
+        --acc2:     #ff1a35;
+        --acc-dim:  rgba(232,0,26,0.08);
+        --acc-mid:  rgba(232,0,26,0.25);
+        --acc-glow: rgba(232,0,26,0.15);
+        --font-d:   'Syne', sans-serif;
+        --font-m:   'Space Mono', monospace;
+        --font-r:   'Rajdhani', sans-serif;
+        --easeOut:  cubic-bezier(.16,1,.3,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        background: var(--bg);
+        color: var(--tx);
+        font-family: var(--font-d);
+        overflow-x: hidden;
+        cursor: none;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; border: none; background: none; cursor: none; }
+
+    /* Cursor */
+    .cur, .cur-ring {
+        position: fixed; border-radius: 50%;
+        pointer-events: none; z-index: 9999;
+        transform: translate(-50%,-50%);
+    }
+    .cur { width: 8px; height: 8px; background: var(--acc); top: 0; left: 0; box-shadow: 0 0 12px var(--acc-glow); transition: width .3s var(--easeOut), height .3s var(--easeOut); }
+    .cur-ring { width: 36px; height: 36px; border: 1px solid rgba(232,0,26,.35); top: 0; left: 0; transition: all .3s; }
+    .cur.hov { width: 44px; height: 44px; background: transparent; border: 1px solid var(--acc); }
+    .cur-ring.hov { width: 0; height: 0; opacity: 0; }
+    @media(max-width:768px){ .cur,.cur-ring{display:none} body,button,a{cursor:auto} }
+
+    /* ─── BACK NAV ─── */
+    .back-nav {
+        position: fixed; top: 0; left: 0; right: 0; height: 64px;
+        display: flex; align-items: center;
+        padding: 0 clamp(20px,5vw,64px);
+        z-index: 800;
+        background: rgba(6,6,8,.92);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(232,0,26,.12);
+        justify-content: space-between;
+    }
+    .back-link {
+        display: flex; align-items: center; gap: 10px;
+        font-family: var(--font-m); font-size: 11px;
+        letter-spacing: .14em; text-transform: uppercase;
+        color: var(--tx2); transition: color .2s;
+    }
+    .back-link:hover { color: var(--acc); }
+    .back-logo {
+        font-family: var(--font-r); font-size: 24px;
+        font-weight: 700; letter-spacing: .2em;
+        text-transform: uppercase;
+    }
+    .back-logo em { color: var(--acc); font-style: normal; }
+    .back-badge {
+        font-family: var(--font-m); font-size: 9px;
+        letter-spacing: .2em; text-transform: uppercase;
+        padding: 4px 10px;
+        background: var(--acc-dim); border: 1px solid var(--acc-mid);
+        color: var(--acc); border-radius: 2px;
+    }
+
+    /* ─── AUTH GATE ─── */
+    #auth-gate {
+        min-height: 100vh;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        padding: 80px 20px;
+        position: relative;
+        z-index: 2;
+        box-sizing: border-box;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    .gate-bg {
+        position: fixed; inset: 0;
+        background: radial-gradient(ellipse at 50% 40%, rgba(232,0,26,.07), transparent 60%);
+        pointer-events: none; z-index: 0;
+    }
+    .gate-scanlines {
+        position: fixed; inset: 0;
+        background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);
+        pointer-events: none; z-index: 1;
+    }
+    .gate-content {
+        position: relative; z-index: 3;
+        text-align: center;
+        max-width: 520px;
+        width: 100%;
+    }
+    .gate-icon {
+        width: 80px; height: 80px; margin: 0 auto 28px;
+        background: var(--acc-dim); border: 1px solid var(--acc-mid);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--acc); font-size: 28px;
+        box-shadow: 0 0 40px var(--acc-glow);
+        animation: pulse 3s infinite;
+    }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 40px var(--acc-glow);} 50%{box-shadow:0 0 70px rgba(232,0,26,.25);} }
+    .gate-title {
+        font-family: var(--font-r); font-size: clamp(32px,6vw,56px);
+        font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+        margin-bottom: 14px; line-height: 1;
+    }
+    .gate-sub {
+        font-size: 15px; color: var(--tx2); line-height: 1.75; margin-bottom: 40px;
+    }
+    .gate-sub em { color: var(--acc); font-style: normal; }
+    .gate-features {
+        display: flex; flex-direction: column; gap: 10px;
+        background: var(--sur); border: 1px solid var(--bdr);
+        padding: 24px; margin-bottom: 36px;
+        clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .gf-item {
+        display: flex; align-items: center; gap: 12px;
+        font-family: var(--font-m); font-size: 11px;
+        letter-spacing: .1em; text-transform: uppercase; color: var(--tx2);
+    }
+    .gf-item i { color: var(--acc); width: 16px; text-align: center; }
+    .gate-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .gate-btn-primary {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 14px 32px;
+        background: var(--acc); color: #fff;
+        font-family: var(--font-m); font-size: 11px;
+        font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+        clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+        transition: background .2s, box-shadow .2s;
+        cursor: pointer;
+    }
+    .gate-btn-primary:hover { background: var(--acc2); box-shadow: 0 8px 32px var(--acc-glow); }
+    .gate-btn-secondary {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 14px 28px;
+        border: 1px solid var(--bdr2); color: var(--tx2);
+        font-family: var(--font-m); font-size: 11px;
+        letter-spacing: .12em; text-transform: uppercase;
+        transition: all .2s; cursor: pointer;
+    }
+    .gate-btn-secondary:hover { border-color: var(--acc); color: var(--tx); background: var(--acc-dim); }
+    .gate-note {
+        font-family: var(--font-m); font-size: 10px;
+        letter-spacing: .1em; color: var(--tx3); margin-top: 20px;
+    }
+
+    /* ─── CLERK UI OVERRIDE ─── */
+    /* Note: Clerk renders in Shadow DOM — use appearance prop in JS instead of CSS */
+    /* Keeping this block for any non-shadow elements Clerk may render outside */
+    .cl-card, .cl-rootBox {
+        background: var(--sur) !important;
+        border: 1px solid var(--bdr2) !important;
+        color: var(--tx) !important;
+        border-radius: 4px !important;
+    }
+
+    /* ─── MAIN PROFILE CONTENT (hidden until authed) ─── */
+    #profile-content {
+        display: none;
+        opacity: 0;
+        transition: opacity .7s var(--easeOut);
+    }
+    #profile-content.visible {
+        display: block;
+        opacity: 1;
+    }
+
+    /* ─── THREE.JS CANVAS WRAPPER ─── */
+    .three-wrap {
+        position: fixed; inset: 0;
+        z-index: 0;
+        pointer-events: none;
+    }
+    #three-canvas {
+        width: 100%; height: 100%;
+    }
+
+    /* ─── SCROLL STORY ─── */
+    .scroll-story {
+        position: relative;
+        z-index: 10;
+        /* tall scroll container to drive camera animation */
+        height: 600vh;
+    }
+    .story-section {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 0 clamp(20px,5vw,64px);
+        pointer-events: none;
+    }
+    .story-panel {
+        max-width: 560px;
+        pointer-events: all;
+        opacity: 0;
+        transform: translateX(-40px);
+        transition: opacity .8s var(--easeOut), transform .8s var(--easeOut);
+    }
+    .story-panel.show { opacity: 1; transform: translateX(0); }
+    .story-tag {
+        font-family: var(--font-m); font-size: 10px;
+        letter-spacing: .22em; text-transform: uppercase;
+        color: var(--acc); margin-bottom: 12px;
+    }
+    .story-h {
+        font-family: var(--font-r); font-size: clamp(36px, 5vw, 64px);
+        font-weight: 700; text-transform: uppercase; letter-spacing: .02em;
+        line-height: .9; margin-bottom: 16px;
+    }
+    .story-h em { color: var(--acc); font-style: normal; }
+    .story-p {
+        font-size: 15px; color: var(--tx2); line-height: 1.8; margin-bottom: 24px;
+    }
+    .story-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .story-chips span {
+        font-family: var(--font-m); font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+        padding: 4px 10px; background: var(--acc-dim); border: 1px solid var(--acc-mid);
+        border-radius: 2px; color: var(--acc);
+    }
+
+    /* ─── PROFILE INFO CARD ─── */
+    .profile-info-wrap {
+        position: relative; z-index: 10;
+        padding: 80px clamp(20px,5vw,64px);
+        max-width: 1240px; margin: 0 auto;
+    }
+    .profile-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+    .info-card {
+        background: var(--sur); border: 1px solid var(--bdr);
+        padding: 32px;
+        clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+        transition: border-color .3s;
+    }
+    .info-card:hover { border-color: var(--acc-mid); }
+    .info-card-title {
+        font-family: var(--font-m); font-size: 10px; letter-spacing: .2em;
+        text-transform: uppercase; color: var(--acc); margin-bottom: 20px;
+    }
+    .info-item { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .info-item i { color: var(--acc); width: 16px; text-align: center; }
+    .info-item span { font-size: 14px; color: var(--tx2); }
+    .info-item a:hover { color: var(--acc); }
+    .cv-btn {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 12px 24px; margin-top: 20px;
+        background: var(--acc); color: #fff;
+        font-family: var(--font-m); font-size: 11px;
+        letter-spacing: .14em; text-transform: uppercase;
+        clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+        transition: background .2s;
+    }
+    .cv-btn:hover { background: var(--acc2); }
+
+    /* ─── PROFILE FOOTER ─── */
+    .profile-footer {
+        position: relative; z-index: 10;
+        border-top: 1px solid var(--bdr);
+        padding: 32px clamp(20px,5vw,64px);
+        display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .pf-logo { font-family: var(--font-r); font-size: 22px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .pf-logo em { color: var(--acc); font-style: normal; }
+    .pf-copy { font-family: var(--font-m); font-size: 10px; color: var(--tx3); letter-spacing: .1em; }
+    .pf-socials { display: flex; gap: 12px; }
+    .pf-socials a { font-size: 15px; color: var(--tx3); transition: color .2s; }
+    .pf-socials a:hover { color: var(--acc); }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:768px) {
+        .profile-grid { grid-template-columns: 1fr; }
+        .profile-footer { flex-direction: column; text-align: center; }
+    }
+    </style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- Back nav -->
+<nav class="back-nav">
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Site</a>
+    <span class="back-logo">SAN<em>.</em></span>
+    <span class="back-badge">Full Profile</span>
+</nav>
+
+<!-- ─── AUTH GATE ─── -->
+<div id="auth-gate">
+    <div class="gate-bg"></div>
+    <div class="gate-scanlines"></div>
+    <div class="gate-content">
+        <div class="gate-icon"><i class="fas fa-lock"></i></div>
+        <h1 class="gate-title">Unlock Full<br>Profile</h1>
+        <p class="gate-sub">
+            Create a free account to access my full interactive profile —
+            including my <em>3D experience walkthrough</em>, full CV, contact info, and more.
+        </p>
+        <div class="gate-features">
+            <div class="gf-item"><i class="fas fa-cube"></i> 3D scroll-driven experience walkthrough</div>
+            <div class="gf-item"><i class="fas fa-file-pdf"></i> Download full CV / Resume</div>
+            <div class="gf-item"><i class="fas fa-phone"></i> Full contact information</div>
+            <div class="gf-item"><i class="fas fa-timeline"></i> Detailed work history &amp; projects</div>
+            <div class="gf-item"><i class="fas fa-certificate"></i> Skills, certifications &amp; education</div>
+        </div>
+        <div class="gate-btns">
+            <button class="gate-btn-primary" id="signUpBtn">
+                <i class="fas fa-user-plus"></i> Sign Up — It's Free
+            </button>
+            <button class="gate-btn-secondary" id="signInBtn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+        </div>
+        <p class="gate-note">Supports Google Sign-In · No spam, ever.</p>
+    </div>
+</div>
+
+<!-- ─── THREE.JS CANVAS (visible after auth) ─── -->
+<div class="three-wrap" id="threeWrap" style="display:none;">
+    <canvas id="three-canvas"></canvas>
+</div>
+
+<!-- ─── FULL PROFILE CONTENT ─── -->
+<div id="profile-content">
+
+    <!-- Scroll Story (drives 3D camera) -->
+    <div class="scroll-story" id="scrollStory">
+
+        <!-- Intro -->
+        <div class="story-section" data-story="0">
+            <div class="story-panel" id="sp0">
+                <div class="story-tag">Welcome</div>
+                <h2 class="story-h">Hello,<br>I'm <em>San.</em></h2>
+                <p class="story-p">Full-stack developer from India. I build things for the web that are fast, accessible, and beautifully crafted. Scroll to explore my journey.</p>
+                <div class="story-chips">
+                    <span>React</span><span>FastAPI</span><span>Node.js</span><span>Python</span><span>MongoDB</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stack -->
+        <div class="story-section" data-story="1">
+            <div class="story-panel" id="sp1">
+                <div class="story-tag">What I Build With</div>
+                <h2 class="story-h">My<br><em>Stack</em></h2>
+                <p class="story-p">3+ years working across the full stack — React frontends, FastAPI & Node.js backends, MongoDB & PostgreSQL databases, deployed on AWS and Vercel.</p>
+                <div class="story-chips">
+                    <span>Docker</span><span>AWS</span><span>Firebase</span><span>Express</span><span>HTML5</span><span>CSS3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="story-section" data-story="2">
+            <div class="story-panel" id="sp2">
+                <div class="story-tag">Projects</div>
+                <h2 class="story-h">What<br>I've<br><em>Built</em></h2>
+                <p class="story-p">From the Italian Language College website to Neuralgrid — a live GPU sharing simulator. Each project ships with intent: clean code, real performance.</p>
+                <div class="story-chips">
+                    <span>4+ live projects</span><span>25+ clients</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="story-section" data-story="3">
+            <div class="story-panel" id="sp3">
+                <div class="story-tag">Experience</div>
+                <h2 class="story-h">3+<br><em>Years</em><br>Building</h2>
+                <p class="story-p">Started self-taught in 2022. Now freelancing across India — delivering full-stack web applications, landing pages, and developer tooling for clients and institutions.</p>
+                <div class="story-chips">
+                    <span>Freelance</span><span>Open Source</span><span>Academic</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Philosophy -->
+        <div class="story-section" data-story="4">
+            <div class="story-panel" id="sp4">
+                <div class="story-tag">Philosophy</div>
+                <h2 class="story-h">Code<br>with<br><em>Intent</em></h2>
+                <p class="story-p">I don't just ship code — I ship experiences. Every pixel, every endpoint, every animation is intentional. Quality isn't a feature, it's the baseline.</p>
+            </div>
+        </div>
+
+    </div><!-- /scroll-story -->
+
+    <!-- Profile Info Cards -->
+    <div class="profile-info-wrap">
+        <div class="profile-grid">
+
+            <!-- Contact Info -->
+            <div class="info-card">
+                <div class="info-card-title">Contact Info</div>
+                <div class="info-item"><i class="fas fa-envelope"></i> <span><a href="mailto:kaizer2021g@gmail.com">kaizer2021g@gmail.com</a></span></div>
+                <div class="info-item"><i class="fas fa-phone"></i><span>+91 6295431895</span></div>
+                <div class="info-item"><i class="fas fa-location-dot"></i><span>India</span></div>
+                <div class="info-item"><i class="fab fa-linkedin-in"></i><span><a href="https://www.linkedin.com/in/sanxc3q/" target="_blank">linkedin.com/in/sanxc3q</a></span></div>
+                <div class="info-item"><i class="fab fa-github"></i><span><a href="https://github.com/kaizer11th" target="_blank">github.com/kaizer11th</a></span></div>
+                <div class="info-item"><i class="fab fa-x-twitter"></i><span><a href="https://x.com/kaizer_11th" target="_blank">x.com/kaizer_11th</a></span></div>
+            </div>
+
+            <!-- CV Download -->
+            <div class="info-card">
+                <div class="info-card-title">Resume / CV</div>
+                <p style="font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:20px;">
+                    Download my latest resume for a full overview of my skills, experience, and education.
+                </p>
+                <a href="assets/samples/resume.pdf" class="cv-btn" download>
+                    <i class="fas fa-file-arrow-down"></i> Download CV
+                </a>
+            </div>
+
+            <!-- Skills -->
+            <div class="info-card">
+                <div class="info-card-title">Core Skills</div>
+                <div class="story-chips">
+                    <span>React</span><span>FastAPI</span><span>Node.js</span><span>Python</span>
+                    <span>MongoDB</span><span>PostgreSQL</span><span>Docker</span><span>AWS</span>
+                    <span>Vercel</span><span>Firebase</span><span>HTML5</span><span>CSS3</span>
+                    <span>JavaScript</span><span>Git</span>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="info-card">
+                <div class="info-card-title">Education</div>
+                <div class="info-item"><i class="fas fa-graduation-cap"></i><span>B.A.(Hons) Italian — CMELLCS, Kolkata</span></div>
+                <div class="info-item"><i class="fas fa-laptop-code"></i><span>Self-taught Full-Stack Development (2022–present)</span></div>
+                <div class="info-item"><i class="fab fa-github"></i><span>GitHub Student Developer Pack</span></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Profile Footer -->
+    <footer class="profile-footer">
+        <span class="pf-logo">SAN<em>.</em></span>
+        <span class="pf-copy">© 2026 San. Built with intent.</span>
+        <div class="pf-socials">
+            <a href="https://github.com/kaizer11th" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/sanxc3q/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </footer>
+
+</div><!-- /profile-content -->
+
+<!--
+    Three.js loaded from CDN
+    GSL ScrollTrigger-style scroll binding
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+/* =============================================
+   CURSOR
+============================================= */
+const cur     = document.getElementById('cur');
+const curRing = document.getElementById('curRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+if (cur && curRing) {
+    document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        cur.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+    });
+    (function tick() {
+        rx += (mx - rx) * .12; ry += (my - ry) * .12;
+        curRing.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+        requestAnimationFrame(tick);
+    })();
+    document.querySelectorAll('a,button').forEach(el => {
+        el.addEventListener('mouseenter', () => { cur.classList.add('hov'); curRing.classList.add('hov'); });
+        el.addEventListener('mouseleave', () => { cur.classList.remove('hov'); curRing.classList.remove('hov'); });
+    });
+}
+
+/* =============================================
+   CLERK AUTH — Correct vanilla JS / CDN pattern
+   window.Clerk is a pre-initialized singleton,
+   NOT a constructor. Call window.Clerk.load()
+   then use window.Clerk.openSignUp() etc.
+============================================= */
+
+async function initClerk() {
+    try {
+        // Official Clerk CDN pattern: Clerk is a global set by clerk.browser.js
+        // Call Clerk.load() to initialise the SDK
+        await Clerk.load();
+
+        if (Clerk.user) {
+            // Already signed in — show profile immediately
+            showProfile();
+        } else {
+            // Not signed in — show the gate and wire buttons
+            document.getElementById('auth-gate').style.display = 'flex';
+            wireButtons();
+        }
+
+        // React to sign-in / sign-out anywhere in the session
+        Clerk.addListener(({ user }) => {
+            if (user) showProfile();
+        });
+
+    } catch (err) {
+        console.error('Clerk load() error:', err);
+        showGateError('⚠️ Clerk failed to load: ' + (err.message || err) + ' — Check your Publishable Key and that sign-in methods are enabled in the Clerk Dashboard.');
+    }
+}
+
+function wireButtons() {
+    document.getElementById('signUpBtn')?.addEventListener('click', () => {
+        replaceGateWithMount();
+        Clerk.mountSignUp(document.getElementById('clerk-mount'), {
+            appearance: {
+                layout: {
+                    socialButtonsPlacement: 'top',
+                    socialButtonsVariant: 'iconButton',
+                },
+                variables: {
+                    colorPrimary: '#e8001a',
+                    colorBackground: '#14141a',
+                    colorInputBackground: '#0a0a0e',
+                    colorInputText: '#f0ece8',
+                    colorText: '#f0ece8',
+                    colorTextSecondary: 'rgba(240,236,232,0.5)',
+                    colorNeutral: '#f0ece8',
+                    colorDanger: '#ff1a35',
+                    colorSuccess: '#22c55e',
+                    borderRadius: '3px',
+                    fontFamily: "'Space Mono', monospace",
+                    fontSize: '13px',
+                },
+                elements: {
+                    card: 'background:#14141a;border:1px solid rgba(255,255,255,0.12);box-shadow:0 0 40px rgba(232,0,26,0.08);',
+                    headerTitle: 'color:#f0ece8;font-family:"Rajdhani",sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;',
+                    headerSubtitle: 'color:rgba(240,236,232,0.5);',
+                    socialButtonsBlockButton: 'background:#0a0a0e;border:1px solid rgba(255,255,255,0.1);color:#f0ece8;',
+                    socialButtonsBlockButton__hover: 'background:#1a1a22;border-color:rgba(232,0,26,0.4);',
+                    dividerLine: 'background:rgba(255,255,255,0.06);',
+                    dividerText: 'color:rgba(240,236,232,0.2);',
+                    formFieldLabel: 'color:rgba(240,236,232,0.5);font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;',
+                    formFieldInput: 'background:#0a0a0e;border:1px solid rgba(255,255,255,0.1);color:#f0ece8;border-radius:2px;',
+                    formButtonPrimary: 'background:#e8001a;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-radius:2px;',
+                    footerActionLink: 'color:#e8001a;',
+                    identityPreviewText: 'color:#f0ece8;',
+                    identityPreviewEditButton: 'color:#e8001a;',
+                    badge: 'background:rgba(232,0,26,0.1);color:#e8001a;border:1px solid rgba(232,0,26,0.25);',
+                    otpCodeFieldInput: 'background:#0a0a0e;border:1px solid rgba(255,255,255,0.1);color:#f0ece8;',
+                },
+            },
+            afterSignUpUrl: window.location.href,
+            afterSignInUrl: window.location.href,
+        });
+    });
+
+    document.getElementById('signInBtn')?.addEventListener('click', () => {
+        replaceGateWithMount();
+        Clerk.mountSignIn(document.getElementById('clerk-mount'), {
+            appearance: {
+                layout: {
+                    socialButtonsPlacement: 'top',
+                    socialButtonsVariant: 'iconButton',
+                },
+                variables: {
+                    colorPrimary: '#e8001a',
+                    colorBackground: '#14141a',
+                    colorInputBackground: '#0a0a0e',
+                    colorInputText: '#f0ece8',
+                    colorText: '#f0ece8',
+                    colorTextSecondary: 'rgba(240,236,232,0.5)',
+                    colorNeutral: '#f0ece8',
+                    colorDanger: '#ff1a35',
+                    colorSuccess: '#22c55e',
+                    borderRadius: '3px',
+                    fontFamily: "'Space Mono', monospace",
+                    fontSize: '13px',
+                },
+                elements: {
+                    card: 'background:#14141a;border:1px solid rgba(255,255,255,0.12);box-shadow:0 0 40px rgba(232,0,26,0.08);',
+                    headerTitle: 'color:#f0ece8;font-family:"Rajdhani",sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;',
+                    headerSubtitle: 'color:rgba(240,236,232,0.5);',
+                    socialButtonsBlockButton: 'background:#0a0a0e;border:1px solid rgba(255,255,255,0.1);color:#f0ece8;',
+                    socialButtonsBlockButton__hover: 'background:#1a1a22;border-color:rgba(232,0,26,0.4);',
+                    dividerLine: 'background:rgba(255,255,255,0.06);',
+                    dividerText: 'color:rgba(240,236,232,0.2);',
+                    formFieldLabel: 'color:rgba(240,236,232,0.5);font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;',
+                    formFieldInput: 'background:#0a0a0e;border:1px solid rgba(255,255,255,0.1);color:#f0ece8;border-radius:2px;',
+                    formButtonPrimary: 'background:#e8001a;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-radius:2px;',
+                    footerActionLink: 'color:#e8001a;',
+                    identityPreviewText: 'color:#f0ece8;',
+                    identityPreviewEditButton: 'color:#e8001a;',
+                    badge: 'background:rgba(232,0,26,0.1);color:#e8001a;border:1px solid rgba(232,0,26,0.25);',
+                    otpCodeFieldInput: 'background:#0a0a0e;border:1px solid rgba(255,255,255,0.1);color:#f0ece8;',
+                },
+            },
+            afterSignUpUrl: window.location.href,
+            afterSignInUrl: window.location.href,
+        });
+    });
+}
+
+function replaceGateWithMount() {
+    const gate = document.getElementById('auth-gate');
+    gate.innerHTML = `
+        <div class="gate-bg"></div>
+        <div class="gate-scanlines"></div>
+        <div style="
+            position: relative; z-index: 3;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            width: 100%; max-width: 520px;
+            padding: 0 20px;
+        ">
+            <div id="clerk-mount" style="width: 100%;"></div>
+            <button onclick="location.reload()" style="
+                margin-top: 16px;
+                font-family: var(--font-m); font-size: 10px;
+                letter-spacing: .15em; text-transform: uppercase;
+                color: var(--tx3); background: none;
+                border: 1px solid var(--bdr); padding: 8px 18px;
+                cursor: pointer; transition: color .2s;
+            ">← Back</button>
+        </div>`;
+}
+
+function showGateError(msg) {
+    document.getElementById('auth-gate').style.display = 'flex';
+    const note = document.querySelector('.gate-note');
+    if (note) note.textContent = msg;
+    console.error(msg);
+}
+
+function showProfile() {
+    document.getElementById('auth-gate').style.display = 'none';
+    document.getElementById('threeWrap').style.display = 'block';
+    const pc = document.getElementById('profile-content');
+    pc.style.display = 'block';
+    setTimeout(() => {
+        pc.classList.add('visible');
+        initThreeScene();
+        initScrollStory();
+    }, 100);
+}
+
+/* =============================================
+   THREE.JS — SCROLL-DRIVEN CAMERA + PARTICLES
+   Camera orbits a central developer figure as
+   the user scrolls through the story sections.
+============================================= */
+let renderer, scene, camera, particleSystem;
+let frameId;
+let scrollProgress = 0;
+
+function initThreeScene() {
+    const canvas  = document.getElementById('three-canvas');
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+
+    scene  = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2, 8);
+    camera.lookAt(0, 0, 0);
+
+    /* Ambient + directional light */
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    const dirLight = new THREE.DirectionalLight(0xe8001a, 1.5);
+    dirLight.position.set(5, 10, 7);
+    scene.add(dirLight);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    fillLight.position.set(-5, -5, -5);
+    scene.add(fillLight);
+
+    /* Central figure — stylised humanoid made from geometry primitives */
+    buildFigure();
+
+    /* Floating particles */
+    buildParticles();
+
+    /* Grid floor */
+    buildGrid();
+
+    window.addEventListener('resize', onResize);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    animate();
+}
+
+function buildFigure() {
+    const mat  = new THREE.MeshStandardMaterial({ color: 0xf0ece8, roughness: .7, metalness: .1 });
+    const accM = new THREE.MeshStandardMaterial({ color: 0xe8001a, roughness: .4, metalness: .2, emissive: 0xe8001a, emissiveIntensity: .3 });
+    const group = new THREE.Group();
+
+    // Torso
+    const torso = new THREE.Mesh(new THREE.BoxGeometry(.8, 1.1, .5), mat);
+    torso.position.y = 0;
+    group.add(torso);
+
+    // Head
+    const head = new THREE.Mesh(new THREE.BoxGeometry(.6, .6, .6), mat);
+    head.position.y = 1.0;
+    group.add(head);
+
+    // Eyes (red accent)
+    const eyeGeo = new THREE.BoxGeometry(.1, .08, .05);
+    [-0.15, 0.15].forEach(x => {
+        const eye = new THREE.Mesh(eyeGeo, accM);
+        eye.position.set(x, 1.05, 0.31);
+        group.add(eye);
+    });
+
+    // Left arm
+    const lArm = new THREE.Mesh(new THREE.BoxGeometry(.25, .9, .25), mat);
+    lArm.position.set(-.6, -.1, 0);
+    group.add(lArm);
+    // Right arm
+    const rArm = new THREE.Mesh(new THREE.BoxGeometry(.25, .9, .25), mat);
+    rArm.position.set(.6, -.1, 0);
+    group.add(rArm);
+
+    // Legs
+    [-0.22, 0.22].forEach(x => {
+        const leg = new THREE.Mesh(new THREE.BoxGeometry(.3, 1.0, .3), mat);
+        leg.position.set(x, -1.1, 0);
+        group.add(leg);
+    });
+
+    // Accent rings around wrists
+    [{ x: -.6, y: -.55 }, { x: .6, y: -.55 }].forEach(pos => {
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(.14, .03, 8, 20), accM);
+        ring.position.set(pos.x, pos.y, 0);
+        ring.rotation.x = Math.PI / 2;
+        group.add(ring);
+    });
+
+    // Floating code fragments around figure
+    const codeGeo = new THREE.PlaneGeometry(.4, .06);
+    const codeMat = new THREE.MeshBasicMaterial({ color: 0xe8001a, opacity: .5, transparent: true, side: THREE.DoubleSide });
+    for (let i = 0; i < 6; i++) {
+        const frag = new THREE.Mesh(codeGeo, codeMat.clone());
+        const angle = (i / 6) * Math.PI * 2;
+        frag.position.set(Math.cos(angle) * 1.8, -0.5 + i * .2, Math.sin(angle) * 1.8);
+        frag.rotation.y = angle;
+        group.add(frag);
+    }
+
+    group.position.set(0, 0, 0);
+    scene.add(group);
+    scene.userData.figure = group;
+}
+
+function buildParticles() {
+    const count = 600;
+    const geo   = new THREE.BufferGeometry();
+    const pos   = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+        pos[i * 3]     = (Math.random() - .5) * 20;
+        pos[i * 3 + 1] = (Math.random() - .5) * 20;
+        pos[i * 3 + 2] = (Math.random() - .5) * 20;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color: 0xe8001a, size: .04, transparent: true, opacity: .6 });
+    particleSystem = new THREE.Points(geo, mat);
+    scene.add(particleSystem);
+}
+
+function buildGrid() {
+    const gridHelper = new THREE.GridHelper(20, 20, 0xe8001a, 0x1a0006);
+    gridHelper.position.y = -2;
+    gridHelper.material.opacity = .25;
+    gridHelper.material.transparent = true;
+    scene.add(gridHelper);
+}
+
+/* Camera waypoints for each story section (0-4) */
+const cameraWaypoints = [
+    { pos: [0, 2, 8],    lookAt: [0, 0, 0]  },   // intro   — front
+    { pos: [5, 1, 5],    lookAt: [0, 0, 0]  },   // stack   — side right
+    { pos: [-5, 2, 5],   lookAt: [0, 0, 0]  },   // projects — side left
+    { pos: [0, 4, 4],    lookAt: [0, 1, 0]  },   // exp     — high angle
+    { pos: [0, 1.2, 3],  lookAt: [0, 1.0, 0] },  // phil    — close face
+];
+
+function lerpVec3(a, b, t) {
+    return [
+        a[0] + (b[0] - a[0]) * t,
+        a[1] + (b[1] - a[1]) * t,
+        a[2] + (b[2] - a[2]) * t,
+    ];
+}
+
+function easeInOut(t) {
+    return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+}
+
+function onScroll() {
+    const scrollEl = document.getElementById('scrollStory');
+    if (!scrollEl) return;
+    const rect    = scrollEl.getBoundingClientRect();
+    const total   = scrollEl.offsetHeight - window.innerHeight;
+    const scrolled = -rect.top;
+    scrollProgress = Math.max(0, Math.min(1, scrolled / total));
+}
+
+function updateCamera() {
+    const count = cameraWaypoints.length;
+    const totalSegs = count - 1;
+    const seg  = scrollProgress * totalSegs;
+    const idx  = Math.min(Math.floor(seg), totalSegs - 1);
+    const t    = easeInOut(seg - idx);
+
+    const from = cameraWaypoints[idx];
+    const to   = cameraWaypoints[idx + 1] || cameraWaypoints[idx];
+
+    const pos = lerpVec3(from.pos, to.pos, t);
+    const look = lerpVec3(from.lookAt, to.lookAt, t);
+
+    camera.position.set(...pos);
+    camera.lookAt(...look);
+
+    // Update story panels visibility
+    const storyIdx = Math.round(scrollProgress * (count - 1));
+    document.querySelectorAll('.story-panel').forEach((el, i) => {
+        el.classList.toggle('show', i === storyIdx);
+    });
+}
+
+function animate() {
+    frameId = requestAnimationFrame(animate);
+    updateCamera();
+
+    const fig = scene.userData.figure;
+    if (fig) {
+        fig.rotation.y = Math.sin(Date.now() * .0003) * .15;
+    }
+    if (particleSystem) {
+        particleSystem.rotation.y += .0003;
+    }
+
+    renderer.render(scene, camera);
+}
+
+function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+/* =============================================
+   SCROLL STORY OBSERVER
+============================================= */
+function initScrollStory() {
+    // Show first panel immediately
+    const sp0 = document.getElementById('sp0');
+    if (sp0) setTimeout(() => sp0.classList.add('show'), 300);
+}
+</script>
+</body>
+</html>
