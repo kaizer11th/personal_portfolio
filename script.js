@@ -410,7 +410,9 @@ navAdminBtn?.addEventListener('click', () => {
     if (isAdmin) {
         toggleAdminPanel();
     } else {
-        loginBackdrop.classList.add('open');
+        loginBackdrop.style.display = 'flex';
+        // small delay so display:flex is painted before opacity transition kicks in
+        requestAnimationFrame(() => loginBackdrop.classList.add('open'));
         document.body.style.overflow = 'hidden';
     }
 });
@@ -422,6 +424,10 @@ loginBackdrop?.addEventListener('click', e => {
 
 function closeLogin() {
     loginBackdrop?.classList.remove('open');
+    // wait for opacity fade-out before hiding
+    setTimeout(() => {
+        if (loginBackdrop) loginBackdrop.style.display = 'none';
+    }, 320);
     document.body.style.overflow = '';
     loginError?.classList.remove('show');
     loginForm?.reset();
